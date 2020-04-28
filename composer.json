@@ -1,0 +1,26 @@
+{
+    "name": "jeroenzwart/php-csv-iterator",
+    "description": "A simple CSV reader with PHP Iterator",
+	"homepage": "https://github.com/jeroenzwart/php-csv-iterator",
+	"keywords": [ "php", "csv", "reader", "iterator"],
+    "license": "GNU",
+    "authors": [
+        {
+            "name": "Jeroen Zwart",
+            "email": "mailme@jeroenzwart.nl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.3"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*",
+        "phpunit/phpunit": "9"
+    },
+    "autoload": {
+        "psr-4": {
+            "JeroenZwart\\CsvIterator\\": "src/"
+        }
+    }
+}
