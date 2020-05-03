@@ -45,7 +45,7 @@ foreach ($csv as $line) {
     var_dump($line)
     // Or do something with $line...
 }
-// THe first dump will look like this
+// The first dump will look like this
 // array(4) {
 //     'name' => string(42) "Star Wars Episode I – The Phantom Menace"
 //     'year_release' => string(4) "1999"
@@ -61,8 +61,8 @@ $line = $csv->next()->current();
 ```
 
 
-## Configuration
-- `filePath` *(string*) - Name of table to insert data.
+## Options
+- `filePath` *(string*) - Path to the CSV file.
 - `offset` *(integer 0)* - The offset from start reading the CSV file.
 - `limit` *(integer -1)* - The limit to end reading the CSV file.
 - `delimiter` *(string ,)* - The delimiter character in the CSV file.
@@ -70,7 +70,6 @@ $line = $csv->next()->current();
 - `escape` *(string \\)* - The escape character in the CSV file.
 - `hasHeaders` *(boolean TRUE)* - To set if the CSV file has a header, set FALSE if not.
 - `keepEmptyLines` *(boolean FALSE)* - Set TRUE for keeping an empty lines in the CSV file.
-
 
 
 ## Examples

@@ -142,12 +142,14 @@ class CsvIterator extends LimitIterator
      * Set the enclosure.
      *
      * @param string $enclosure The only one character for the enclosure.
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function setEnclosure(string $enclosure): void
     {
-        [$_delimiter, $_enclosure, $_escape] = $this->file->getCsvControl();
+        [$currentDelimiter, $currentEnclosure, $currentEscape] = $this->file->getCsvControl();
 
-        $this->file->setCsvControl($_delimiter, $enclosure);
+        $this->file->setCsvControl($currentDelimiter, $enclosure, $currentEscape);
     }
 
     /**
@@ -162,12 +164,14 @@ class CsvIterator extends LimitIterator
      * Set the escape.
      *
      * @param string $escape The only one character for the escape.
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function setEscape(string $escape): void
     {
-        [$_delimiter, $_enclosure, $_escape] = $this->file->getCsvControl();
+        [$currentDelimiter, $currentEnclosure, $currentEscape] = $this->file->getCsvControl();
 
-        $this->file->setCsvControl($_delimiter, $_enclosure, $escape);
+        $this->file->setCsvControl($currentDelimiter, $currentEnclosure, $escape);
     }
 
     /**
