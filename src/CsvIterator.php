@@ -29,6 +29,9 @@ class CsvIterator extends LimitIterator
     /** @var array|null $headers */
     private $headers;
 
+    /** @var bool $resultAsObject */
+    private $resultAsObject;
+
     /**
      * CsvIterator constructor.
      *
@@ -42,6 +45,7 @@ class CsvIterator extends LimitIterator
         string $enclosure,
         string $escape,
         bool $hasHeaders,
+        bool $resultAsObject,
         bool $ignoreEmpty)
     {
         parent::__construct($file, $offset, $limit);
@@ -55,6 +59,8 @@ class CsvIterator extends LimitIterator
         $this->setEscape($escape);
 
         $this->setHeaders($hasHeaders);
+
+        $this->setResultAsObject($resultAsObject);
 
         $this->setSkipEmpty($ignoreEmpty);
     }
@@ -71,12 +77,14 @@ class CsvIterator extends LimitIterator
 
     /**
      * Get the current value with/without headers as keys.
+     *
+     * @return object|array The current values.
      */
-    public function current(): array
+    public function current()
     {
         $current = (array) parent::current();
 
-        if (empty($this->headers) === true) return $current;
+        if (empty($this->headers) === true) return ($this->resultAsObject ? (object) $current : $current);
 
         try {
             $line = array_combine($this->headers, $current);
@@ -89,11 +97,13 @@ class CsvIterator extends LimitIterator
             );
         }
 
-        return $line;
+        return ($this->resultAsObject ? (object) $line : $line);
     }
 
     /**
-     * Get the file
+     * Get the file.
+     *
+     * @return SplFileObject The file as SplFileObject instance.
      */
     protected function getFile(): SplFileObject
     {
@@ -114,6 +124,8 @@ class CsvIterator extends LimitIterator
 
     /**
      * Get the delimiter.
+     *
+     * @return string The delimiter character.
      */
     protected function getDelimiter(): string
     {
@@ -132,6 +144,8 @@ class CsvIterator extends LimitIterator
 
     /**
      * Get the enclosure.
+     *
+     * @return string The enclosure character.
      */
     protected function getEnclosure(): string
     {
@@ -154,6 +168,8 @@ class CsvIterator extends LimitIterator
 
     /**
      * Get the escape.
+     *
+     * @return string The escape character.
      */
     protected function getEscape(): string
     {
@@ -176,6 +192,8 @@ class CsvIterator extends LimitIterator
 
     /**
      * Get the headers.
+     *
+     * @return array|null The headers or nothing.
      */
     protected function getHeaders(): ?array
     {
@@ -199,9 +217,31 @@ class CsvIterator extends LimitIterator
     }
 
     /**
-     * Get the mode to ignore empty lines.
+     * Get the mode to get values as object/array.
+     *
+     * @return bool The mode for result as object/array.
      */
-    protected function getSkipEmpty(): bool
+    protected function isResultAsObject(): bool
+    {
+        return $this->resultAsObject;
+    }
+
+    /**
+     * Set the mode to get values as object/array.
+     *
+     * @param bool $resultAsObject The boolean to get result as object/array.
+     */
+    protected function setResultAsObject(bool $resultAsObject): void
+    {
+        $this->resultAsObject = $resultAsObject;
+    }
+
+    /**
+     * Get the mode to ignore empty lines.
+     *
+     * @return bool The mode to ignore empty lines.
+     */
+    protected function isSkipEmpty(): bool
     {
         return ($this->file->getFlags() & SplFileObject::SKIP_EMPTY) === SplFileObject::SKIP_EMPTY;
     }

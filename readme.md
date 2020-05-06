@@ -46,11 +46,11 @@ foreach ($csv as $line) {
     // Or do something with $line...
 }
 // The first dump will look like this
-// array(4) {
-//     'name' => string(42) "Star Wars Episode I – The Phantom Menace"
-//     'year_release' => string(4) "1999"
-//     'order' => string(1) "1"
-//     'imdb_rating' => string(3) "6.5"
+// class stdClass(4) {
+//     public 'name' => string(42) "Star Wars Episode I – The Phantom Menace"
+//     public 'year_release' => string(4) "1999"
+//     public 'order' => string(1) "1"
+//     public 'imdb_rating' => string(3) "6.5"
 // }
 ```
 
@@ -69,6 +69,7 @@ $line = $csv->next()->current();
 - `enclosure` *(string ")* - The enclosure character in the CSV file.
 - `escape` *(string \\)* - The escape character in the CSV file.
 - `hasHeaders` *(boolean TRUE)* - To set if the CSV file has a header, set FALSE if not.
+- `asObject` *(boolean TRUE)* - Return the lines of the CSV file as object, set FALSE as array.
 - `keepEmptyLines` *(boolean FALSE)* - Set TRUE for keeping an empty lines in the CSV file.
 
 
@@ -98,17 +99,18 @@ foreach ($csv as $line) {
 To get the current delimiter, enclosure or escape, you use `$csv->delimiter()`
 
 
-#### Headers and empty
+#### Headers, asObject and empty
 
 Ignore the headers in the CSV file and return array with regular keys, but keep empty lines;
 ``` php
 $csv = new CsvReader('../csv/actors.csv');
-$csv->headers(false)->empty(true);
+$csv->headers(false)->asObject(false)->empty(true);
 foreach ($csv as $line) {
     // Do something with $line...
 }
 ```
-To get the headers of a CSV file as array, you use `$csv->headers()`. Like to get the current setting of empty with `$csv->empty()`
+To get the headers of a CSV file as array, you use `$csv->headers()`.
+For getting the modes for settings asObject or empty, you can use  `$csv->asObject()` or `$csv->empty()`.
 
 
 #### Position

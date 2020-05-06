@@ -26,7 +26,7 @@ final class CsvIteratorTest extends BaseTest
     {
         $this->file = new SplFileObject(self::FILEPATH);
 
-        $this->csvIterator = new CsvIterator($this->file, 0, -1, ',', '"', '\\', true, true);
+        $this->csvIterator = new CsvIterator($this->file, 0, -1, ',', '"', '\\', true, true, true);
     }
 
     public function testRewind(): void
@@ -36,7 +36,7 @@ final class CsvIteratorTest extends BaseTest
         $this->assertEquals(1, $this->csvIterator->getPosition());
 
         // Test to rewind without headers
-        $csvIterator = new CsvIterator($this->file, 0, -1, ',', '"', '\\', false, true);
+        $csvIterator = new CsvIterator($this->file, 0, -1, ',', '"', '\\', false, true, true);
         $csvIterator->rewind();
         $this->assertEquals(0, $csvIterator->getPosition());
     }
@@ -45,7 +45,7 @@ final class CsvIteratorTest extends BaseTest
     {
         // Test to get headers
         $current = $this->csvIterator->current();
-        $this->assertEquals([
+        $this->assertEquals((object) [
             'name' => 'name',
             'year_release' => 'year_release',
             'order' => 'order',
@@ -53,15 +53,15 @@ final class CsvIteratorTest extends BaseTest
         ], $current);
 
         // Test to get with no headers
-        $csvIterator = new CsvIterator($this->file, 0, -1, ',', '"', '\\', false, true);
+        $csvIterator = new CsvIterator($this->file, 0, -1, ',', '"', '\\', false, true, true);
         $current = $csvIterator->current();
-        $this->assertEquals([], $current);
+        $this->assertEquals((object) [], $current);
 
         // Test to get with mismatch headers
         $this->expectException(CsvIteratorException::class);
         $this->expectExceptionMessage('The amount of headers mismatch with line [1].');
         $file = new SplFileObject('./csv/invalid.csv');
-        $csvIterator = new CsvIterator($file, 0, -1, ',', '"', '\\', true, false);
+        $csvIterator = new CsvIterator($file, 0, -1, ',', '"', '\\', true, false, true);
         $csvIterator->rewind();
         $csvIterator->current();
     }
@@ -148,18 +148,33 @@ final class CsvIteratorTest extends BaseTest
         $this->assertNull($headers);
     }
 
-    public function testGetSkipEmpty(): void
+    public function testIsResultAsObject(): void
     {
         // Test to get skipEmpty
-        $skipEmpty = $this->invokeMethod($this->csvIterator, 'getSkipEmpty');
+        $skipEmpty = $this->invokeMethod($this->csvIterator, 'isSkipEmpty');
         $this->assertTrue($skipEmpty);
+    }
+
+    public function testSetResultAsObject(): void
+    {
+        // Test to set resultAsObject
+        $this->invokeMethod($this->csvIterator, 'setResultAsObject', [false]);
+        $resultAsObject = $this->invokeMethod($this->csvIterator, 'isResultAsObject');
+        $this->assertFalse($resultAsObject);
+    }
+
+    public function testIsSkipEmpty(): void
+    {
+        // Test to get resultAsObject
+        $resultAsObject = $this->invokeMethod($this->csvIterator, 'isResultAsObject');
+        $this->assertTrue($resultAsObject);
     }
 
     public function testSetSkipEmpty(): void
     {
         // Test to set skipEmpty
         $this->invokeMethod($this->csvIterator, 'setSkipEmpty', [false]);
-        $skipEmpty = $this->invokeMethod($this->csvIterator, 'getSkipEmpty');
+        $skipEmpty = $this->invokeMethod($this->csvIterator, 'isSkipEmpty');
         $this->assertFalse($skipEmpty);
     }
 }

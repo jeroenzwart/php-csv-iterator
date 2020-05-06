@@ -1,9 +1,10 @@
 {
     "name": "jeroenzwart/php-csv-iterator",
-    "description": "A simple CSV reader with PHP Iterator",
+    "type": "library",
+    "description": "A simple CSV reader, to read as array/object with PHP Iterator",
+	"keywords": [ "php", "csv", "open", "read", "reader", "import", "iterator"],
 	"homepage": "https://github.com/jeroenzwart/php-csv-iterator",
-	"keywords": [ "php", "csv", "reader", "iterator"],
-    "license": "GNU",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Jeroen Zwart",

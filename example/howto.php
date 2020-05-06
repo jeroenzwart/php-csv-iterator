@@ -38,6 +38,7 @@ foreach ($csv as $line) {
 $csv = new CsvReader('../csv/actors.csv', 5);
 $csv->delimiter(';')
     ->headers(false)
+    ->asObject(false)
     ->empty(true);
 
 //echo PHP_EOL . 'Output the headers of the `actors` file:' . PHP_EOL;

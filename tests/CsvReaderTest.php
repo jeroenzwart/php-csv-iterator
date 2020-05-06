@@ -100,6 +100,25 @@ class CsvReaderTest extends BaseTest
         $this->assertNull($headers);
     }
 
+    public function testAsObject(): void
+    {
+        // Test to get default asObject
+        $asObject = $this->csvReader->asObject();
+        $this->assertTrue($asObject);
+
+        // Test to set asObject
+        $that = $this->csvReader->asObject(true);
+        $asObject = $this->csvReader->asObject();
+        $this->assertIsObject($that);
+        $this->assertTrue($asObject);
+
+        // Test to set not asObject
+        $that = $this->csvReader->asObject(false);
+        $asObject = $this->csvReader->asObject();
+        $this->assertIsObject($that);
+        $this->assertFalse($asObject);
+    }
+
     public function testEmpty(): void
     {
         // Test to get default empty

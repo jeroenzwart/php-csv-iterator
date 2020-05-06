@@ -38,6 +38,9 @@ class CsvReader extends CsvIterator implements Countable
     /** @var bool HAS_HEADERS */
     private const HAS_HEADERS = true;
 
+    /** @var bool RESULT_AS_OBJECT */
+    private const RESULT_AS_OBJECT = true;
+
     /** @var bool SKIP_EMPTY */
     private const SKIP_EMPTY = true;
 
@@ -60,6 +63,7 @@ class CsvReader extends CsvIterator implements Countable
             self::ENCLOSURE,
             self::ESCAPE,
             self::HAS_HEADERS,
+            self::RESULT_AS_OBJECT,
             self::SKIP_EMPTY
         );
     }
@@ -170,6 +174,24 @@ class CsvReader extends CsvIterator implements Countable
     }
 
     /**
+     * Set or get to return the result as object/array.
+     *
+     * @param bool|null $resultAsObject The boolean for the result mode.
+     *
+     * @return bool|self Returns the mode or this instance.
+     */
+    public function asObject(?bool $resultAsObject = null)
+    {
+        if ($resultAsObject === null) {
+            return $this->isResultAsObject();
+        }
+
+        $this->setResultAsObject($resultAsObject);
+
+        return $this;
+    }
+
+    /**
      * Set or get to keep the empty lines of the CSV.
      *
      * @param bool|null $keepEmptyLines The boolean to keep empty lines.
@@ -179,7 +201,7 @@ class CsvReader extends CsvIterator implements Countable
     public function empty(?bool $keepEmptyLines = null)
     {
         if ($keepEmptyLines === null) {
-            return $this->getSkipEmpty() === false;
+            return $this->isSkipEmpty() === false;
         }
 
         $this->setSkipEmpty(($keepEmptyLines === false));
@@ -219,6 +241,8 @@ class CsvReader extends CsvIterator implements Countable
      * Check and set the CSV file.
      *
      * @param string $filePath The path of the file.
+     *
+     * @return SplFileObject The SplFileObject instance.
      */
     private function takeFile(string $filePath): SplFileObject
     {
@@ -248,7 +272,9 @@ class CsvReader extends CsvIterator implements Countable
     /**
      * Check if given value has a single character.
      *
-     * @param string $value
+     * @param string $value The string to check.
+     *
+     * @return bool The boolean.
      */
     private function onlyCharacter(string $value): bool
     {
