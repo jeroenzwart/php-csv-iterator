@@ -140,6 +140,8 @@ class CsvIterator extends LimitIterator
     protected function setDelimiter(string $delimiter): void
     {
         $this->file->setCsvControl($delimiter);
+
+        $this->setHeaders((bool) $this->headers);
     }
 
     /**
@@ -164,6 +166,8 @@ class CsvIterator extends LimitIterator
         [$currentDelimiter, $currentEnclosure, $currentEscape] = $this->file->getCsvControl();
 
         $this->file->setCsvControl($currentDelimiter, $enclosure, $currentEscape);
+
+        $this->setHeaders((bool) $this->headers);
     }
 
     /**
@@ -188,6 +192,8 @@ class CsvIterator extends LimitIterator
         [$currentDelimiter, $currentEnclosure, $currentEscape] = $this->file->getCsvControl();
 
         $this->file->setCsvControl($currentDelimiter, $currentEnclosure, $escape);
+
+        $this->setHeaders((bool) $this->headers);
     }
 
     /**
